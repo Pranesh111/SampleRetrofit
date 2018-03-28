@@ -6,9 +6,11 @@
     android:background="@android:color/darker_gray"
     tools:context="atrue.pranesh.sampleretrofit2.MainActivity">
 
+
     <FrameLayout
         android:id="@+id/base_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 </LinearLayout>
