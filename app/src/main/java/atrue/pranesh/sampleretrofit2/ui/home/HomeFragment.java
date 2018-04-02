@@ -4,13 +4,18 @@ package atrue.pranesh.sampleretrofit2.ui.home;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     List<Users> userList = new ArrayList<>();
     UserAdapter userAdapter;
-
+    CollapsingToolbarLayout collapseToolbar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -43,14 +48,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyUser);
+        collapseToolbar=view.findViewById(R.id.collapsingToolbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         if (userList.size() > 0) {
             setAdapter(userList);
         } else {
             fetchUserData();
         }
-    }
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.flower);
 
+        if (bitmap != null && !bitmap.isRecycled()) {
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+               /*    int mutedColour = palette.getMutedColor(R.attr.colorPrimary);
+                    collapseToolbar.setContentScrimColor(mutedColour);*/
+                    applyPalette(palette);
+                }
+            });
+        }
+
+    }
+    private void applyPalette(Palette palette) {
+        int primaryDark = getResources().getColor(R.color.colorPrimaryDark);
+        int primary = getResources().getColor(R.color.colorPrimary);
+        collapseToolbar.setContentScrimColor(palette.getMutedColor(primary));
+        collapseToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
+        //supportStartPostponedEnterTransition();
+    }
     private void fetchUserData() {
         ApiStories apiStories = ApiClient.getClient().create(ApiStories.class);
         Call<List<Users>> call = apiStories.doGetListUsers();
@@ -59,7 +84,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
                 setAdapter(response.body());
             }
-
             @Override
             public void onFailure(Call<List<Users>> call, Throwable t) {
 
