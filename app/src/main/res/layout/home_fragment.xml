@@ -32,14 +32,14 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:titleTextColor="@android:color/black" />
 
-            <ImageView
+       <!--     <ImageView
                 android:id="@+id/toolbarImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/flower"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax" />-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

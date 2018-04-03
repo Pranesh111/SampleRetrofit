@@ -61,8 +61,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-               /*    int mutedColour = palette.getMutedColor(R.attr.colorPrimary);
-                    collapseToolbar.setContentScrimColor(mutedColour);*/
                     applyPalette(palette);
                 }
             });
@@ -74,8 +72,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int primary = getResources().getColor(R.color.colorPrimary);
         collapseToolbar.setContentScrimColor(palette.getMutedColor(primary));
         collapseToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
-        //supportStartPostponedEnterTransition();
-    }
+   }
     private void fetchUserData() {
         ApiStories apiStories = ApiClient.getClient().create(ApiStories.class);
         Call<List<Users>> call = apiStories.doGetListUsers();
